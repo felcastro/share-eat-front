@@ -1,0 +1,41 @@
+.places-cards {
+    /* overflow: auto; */
+}
+
+.plate-card {
+    background-color: #F3AA00;
+    border-radius: 10px;
+    box-shadow: 0 0 2px 0 rgba(0,0,0,0), 0 0 20px 0 rgba(0,0,0,0.19);
+    padding-left: 10px;
+    margin-bottom: 1rem;
+    color: white;
+    text-decoration: none;
+}
+
+.plate-card-inner {
+    background-color: #464646;
+    border-radius: 0 10px 10px 0;
+    padding: 1rem;
+}
+
+.plate-card-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.float-btn{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#F3AA00;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 0 0 2px 0 rgba(0,0,0,0), 0 0 20px 0 rgba(0,0,0,0.19);
+}
+
+.float-btn-icon {
+    color: black;
+    margin-top: 13px;
+}

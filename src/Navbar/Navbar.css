@@ -1,0 +1,11 @@
+.navbar-header {
+    width: 100%;
+    text-align: center;
+}
+
+.navbar-brand {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.7rem !important;
+}
