@@ -5,7 +5,12 @@ import { useHistory } from 'react-router-dom';
 import API from '../config';
 
 const Plate = ({ match }) => {
-    useEffect(() => { fetchPlace(); }, []);
+    useEffect(() => { 
+        fetchPlace(); 
+        if (match.params.plateId) {
+            fetchPlate();
+        }
+    }, []);
 
     const [formName, setName] = useState('');
     const [formPrice, setPrice] = useState(0);
@@ -22,13 +27,34 @@ const Plate = ({ match }) => {
         setPlace(place);
     }
 
+    const fetchPlate = async () => {
+        const data = await fetch(API + '/api/plates/' + match.params.plateId);
+        const plate = await data.json();
+
+        setName(plate.name);
+        setPrice(plate.price);
+        setDescription(plate.description); 
+    }
+
     const postData = async () => {
-        const response = await fetch(API + '/api/plates/', {
-            method: 'POST',
+        const postUrl = API + '/api/plates/';
+        const putUrl = API + '/api/plates/' + match.params.plateId;
+        const response = await fetch(match.params.plateId ? putUrl : postUrl, {
+            method: match.params.plateId ? 'PUT' : 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({name: formName, price: formPrice, description: formDescription, place_id: match.params.id})
+        });
+
+        if (response.status === 200) {
+            history.push('/place/' + match.params.id);
+        }
+    }
+
+    const deleteData = async () => {
+        const response = await fetch(API + '/api/plates/' + match.params.plateId, {
+            method: 'DELETE',
         });
 
         if (response.status === 200) {
@@ -59,6 +85,7 @@ const Plate = ({ match }) => {
                     <small id="plateDescriptionHelp" className="form-text">*A descrição deve conter até 200 caracteres.</small>
                 </div>
                 <button type="button" className="btn-lg btn-block fixed-submit-btn" onClick={postData}>Salvar</button>
+                <button type="button" className="btn-danger btn-lg btn-block " onClick={deleteData}>Deletar</button>
             </form>
         </div>
     );

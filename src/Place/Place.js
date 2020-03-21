@@ -26,7 +26,9 @@ const Place = ({ match }) => {
             </div>
             <div className="plates-cards">
                 {place.plates ? place.plates.map(plate => (
-                    <PlateCard plate={plate} />
+                    <Link to={'/place/' + place.id + '/plate/' + plate.id}>
+                        <PlateCard plate={plate} />
+                    </Link>
                 )) : null}
             </div>
             <Link to={'/place/' + place.id + '/new'} className="float-btn">
