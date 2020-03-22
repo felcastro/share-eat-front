@@ -9,7 +9,7 @@ const PlateCard = ({ plate, placeId }) => (
                     <div style={{flexGrow: 1, overflow: 'hidden'}}>
                         <h3 style={{overflowWrap: 'break-word'}}>{plate.name}</h3>
                     </div>
-                    <span>R$ {plate.price.toFixed(2).toString().replace('.', ',')}</span>
+                    <span style={{whiteSpace: 'nowrap'}}>R$ {plate.price.toFixed(2).toString().replace('.', ',')}</span>
                 </div>
                 <div className="row">
                     <div className="col-10" style={{overflowWrap: 'break-word'}}>
