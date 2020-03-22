@@ -7,9 +7,11 @@ import API from '../config';
 
 const Place = ({ match }) => {
 
+    document.body.style.background = '#353535';
+
     useEffect(() => { fetchPlace(); }, []);
 
-    const [place, setPlace] = useState([]);
+    const [place, setPlace] = useState({plates: []});
 
     const fetchPlace = async () => {
         const data = await fetch(API + '/api/places/' + match.params.id);
@@ -19,16 +21,12 @@ const Place = ({ match }) => {
     }
 
     return (
-        <div className="container place-page">
-            <div>
-                <h1 className="places-title">{place.name}</h1>
-                <p>{place.plates ? place.plates.length : 0} pratos</p>
-            </div>
-            <div className="plates-cards">
-                {place.plates ? place.plates.map(plate => (
-                    <Link to={'/place/' + place.id + '/plate/' + plate.id}>
-                        <PlateCard plate={plate} />
-                    </Link>
+        <div>
+            <h1 className="page-title">{place.name}</h1>
+            <p className="page-subtitle">{place.plates.length} {place.plates.length === 1 ? "prato" : "pratos"}</p>
+            <div className="list-cards">
+                {place.plates ? place.plates.map((plate, i) => (
+                    <PlateCard plate={plate} placeId={match.params.id} key={i}/>
                 )) : null}
             </div>
             <Link to={'/place/' + place.id + '/new'} className="float-btn">

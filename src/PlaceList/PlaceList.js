@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-import './Places.css'
+import './PlaceList.css'
 import PlaceCard from './PlaceCard'
 import API from '../config';
 
 const Places = () => {
+
+    document.body.style.background = '#292929';
 
     useEffect(() => { fetchPlaces(); }, []);
 
@@ -18,14 +20,12 @@ const Places = () => {
     }
 
     return (
-        <div className="container places">
-            <div>
-                <h1 className="places-title">Lugares</h1>
-                <p>{places.length} lugares cadastrados</p>
-            </div>
-            <div className="places-cards">
-                {places.map(place => (
-                    <PlaceCard place={place}/>
+        <div>
+            <h1 className="page-title">Lugares</h1>
+            <p className="page-subtitle">{places.length} {places.length === 1 ? "lugar cadastrado" : "lugares cadastrados"}</p>
+            <div className="place-list-cards">
+                {places.map((place, i) => (
+                    <PlaceCard place={place} key={i} />
                 ))}
             </div>
         </div>

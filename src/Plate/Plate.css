@@ -1,4 +1,12 @@
+.flate-form {
+    align-content: space-between;
+}
+
 .fixed-submit-btn {
     background-color: #F3AA00;
     border-style: none;
+}
+
+.form-field-error {
+    color: #dc3545;
 }
