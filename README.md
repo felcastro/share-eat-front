@@ -1,5 +1,6 @@
 ## Teste 4all
 
+### `npm install`
 ### `npm start`
 
 Executa o projeto em modo de desenvolvimento, na porta :3000.<br />
