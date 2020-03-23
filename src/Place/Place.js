@@ -11,22 +11,28 @@ const Place = ({ match }) => {
 
     useEffect(() => { fetchPlace(); }, []);
 
-    const [place, setPlace] = useState({plates: []});
+    const [place, setPlace] = useState({ plates: [] });
+    const [loadError, setLoadError] = useState(false);
+    const [loadErrorMessage, setLoadErrorMessage] = useState('');
 
     const fetchPlace = async () => {
         const data = await fetch(API + '/api/places/' + match.params.id);
-        const place = await data.json();
-
-        setPlace(place);
+        if (data.status === 404) {
+            setLoadError(true);
+            setLoadErrorMessage('Erro ao carregar o local.')
+        } else {
+            const place = await data.json();
+            setPlace(place);
+        }
     }
 
-    return (
+    const mainPage = () => (
         <div>
             <h1 className="page-title">{place.name}</h1>
             <p className="page-subtitle">{place.plates.length} {place.plates.length === 1 ? "prato" : "pratos"}</p>
             <div className="list-cards">
                 {place.plates ? place.plates.map((plate, i) => (
-                    <PlateCard plate={plate} placeId={match.params.id} key={i}/>
+                    <PlateCard plate={plate} placeId={match.params.id} key={i} />
                 )) : null}
             </div>
             <Link to={'/place/' + place.id + '/new'} className="float-btn">
@@ -36,6 +42,14 @@ const Place = ({ match }) => {
                 </svg>
             </Link>
         </div>
+    );
+
+    const errorPage = () => (
+        <div style={{ color: 'red' }}>{loadErrorMessage}</div>
+    );
+
+    return (
+        loadError ? errorPage() : mainPage()
     );
 };
 

@@ -20,6 +20,8 @@ const Plate = ({ match }) => {
     const [formDescription, setDescription] = useState('');
     const [formErrors, setFormErrors] = useState({ started: true });
     const [formError, setFormError] = useState();
+    const [loadError, setLoadError] = useState(false);
+    const [loadErrorMessage, setLoadErrorMessage] = useState('');
 
     const [place, setPlace] = useState([]);
 
@@ -48,18 +50,28 @@ const Plate = ({ match }) => {
 
     const fetchPlace = async () => {
         const data = await fetch(API + '/api/places/' + match.params.id);
-        const place = await data.json();
-
-        setPlace(place);
+        if (data.status === 404) {
+            setLoadError(true);
+            setLoadErrorMessage('Erro ao carregar o local.')
+        } else {
+            const place = await data.json();
+            setPlace(place);
+        }
     }
 
     const fetchPlate = async () => {
         const data = await fetch(API + '/api/plates/' + match.params.plateId);
-        const plate = await data.json();
 
-        setName(plate.name);
-        setPrice(plate.price);
-        setDescription(plate.description);
+        if (data.status === 404) {
+            setLoadError(true);
+            setLoadErrorMessage('Erro ao carregar o prato.')
+        } else {
+            const plate = await data.json();
+
+            setName(plate.name);
+            setPrice(plate.price);
+            setDescription(plate.description);
+        }
     }
 
     const handleSubmit = () => {
@@ -113,7 +125,7 @@ const Plate = ({ match }) => {
         }
     }
 
-    return (
+    const mainPage = () => (
         <div>
             <h1 className="page-title">{place.name}</h1>
             <form className="plate-form">
@@ -159,7 +171,13 @@ const Plate = ({ match }) => {
                 }
             </form>
         </div>
+    )
+
+    const errorPage = () => (
+        <div style={{color: 'red'}}>{loadErrorMessage}</div>
     );
+
+    return loadError ? errorPage() : mainPage();
 };
 
 export default Plate;
